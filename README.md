@@ -11,5 +11,19 @@ on VirtualBox. Conducted a full security audit using Nmap,
 identified real vulnerabilities in the default configuration, 
 and applied structured hardening controls.
 
+## Architecture & Documentation
+
+This project includes an interactive network diagram built with 
+SVG illustrating all five roles pfSense plays simultaneously:
+
+- Gatekeeper (edge firewall)
+- DHCP server (IP assignment)
+- Traffic filter (allow/block rules)
+- DNS resolver (name resolution)
+- NAT router (internet sharing + privacy)
+
+Full architecture walkthrough documented with before/after 
+Nmap evidence showing measurable attack surface reduction.
+
 ## Network Architecture
 ![Network Diagram](screenshots/network_diagram.png)
