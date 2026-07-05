@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<pfsense>
+  <version>22.2</version>
+  <lastchange></lastchange>
+  <system>
+    <optimization>normal</optimization>
+    <hostname>pfSense</hostname>
+    <domain>home.arpa</domain>
+    <dnsserver></dnsserver>
+    <dnsallowoverride></dnsallowoverride>
+    <group>
+      <name>all</name>
+      <description><![CDATA[All Users]]></description>
+      <scope>system</scope>
+      <gid>1998</gid>
+    </group>
+    <group>
+      <name>admins</name>
+      <description><![CDATA[System Administrators]]></description>
+      <scope>system</scope>
+      <gid>1999</gid>
+      <member>0</member>
+      <priv>page-all</priv>
+    </group>
+    <user>
+      <name>admin</name>
+      <descr><![CDATA[System Administrator]]></descr>
+      <scope>system</scope>
+      <groupname>admins</groupname>
+
+      <!-- REDACTED: sha512-hash removed before publishing -->
+      <sha512-hash>REDACTED</sha512-hash>
+
+      <uid>0</uid>
+      <priv>user-shell-access</priv>
+      <expires></expires>
+      <dashboardcolumns>2</dashboardcolumns>
+      <authorizedkeys></authorizedkeys>
+      <ipsecpsk></ipsecpsk>
+      <webguicss>pfSense.css</webguicss>
+    </user>
+    <nextuid>2000</nextuid>
+    <nextgid>2000</nextgid>
+    <timeservers>2.pfsense.pool.ntp.org</timeservers>
+    <webgui>
+      <protocol>https</protocol>
+      <loginautocomplete></loginautocomplete>
+      <ssl-certref>REDACTED</ssl-certref>
+      <port>443</port>
+      <max_procs>6</max_procs>
+    </webgui>
+    <disablenatreflection>yes</disablenatreflection>
+    <disablesegmentationoffloading></disablesegmentationoffloading>
+    <disablelargereceiveoffloading></disablelargereceiveoffloading>
+    <maximumtableentries>400000</maximumtableentries>
+    <ssh></ssh>
+    <sshguard_threshold></sshguard_threshold>
+    <sshguard_blocktime></sshguard_blocktime>
+    <sshguard_detection_time></sshguard_detection_time>
+    <sshguard_whitelist></sshguard_whitelist>
+  </system>
+  <interfaces>
+    <wan>
+      <enable></enable>
+      <if>em0</if>
+      <ipaddr>dhcp</ipaddr>
+      <ipaddrv6>dhcp6</ipaddrv6>
+      <blockpriv></blockpriv>
+      <blockbogons></blockbogons>
+    </wan>
+    <lan>
+      <enable></enable>
+      <if>em1</if>
+      <ipaddr>192.168.1.1</ipaddr>
+      <subnet>24</subnet>
+      <ipaddrv6>track6</ipaddrv6>
+      <subnetv6>64</subnetv6>
+      <track6-interface>wan</track6-interface>
+      <track6-prefix-id>0</track6-prefix-id>
+    </lan>
+  </interfaces>
+  <dhcpd>
+    <lan>
+      <enable></enable>
+      <range>
+        <!-- DHCP pool: assigns IPs from .100 to .199 to internal VMs -->
+        <from>192.168.1.100</from>
+        <to>192.168.1.199</to>
+      </range>
+    </lan>
+  </dhcpd>
+  <nat>
+    <outbound>
+      <!-- Automatic NAT: all LAN traffic goes out through WAN -->
+      <mode>automatic</mode>
+    </outbound>
+  </nat>
+  <filter>
+    <rule>
+      <type>pass</type>
+      <ipprotocol>inet</ipprotocol>
+      <descr><![CDATA[Default allow LAN to any rule]]></descr>
+      <interface>lan</interface>
+      <tracker>0100000101</tracker>
+      <source>
+        <network>lan</network>
+      </source>
+      <destination>
+        <any></any>
+      </destination>
+    </rule>
+    <rule>
+      <!-- HARDENING RULE: blocks HTTP access to pfSense admin panel -->
+      <type>block</type>
+      <interface>lan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>tcp</protocol>
+      <source>
+        <any></any>
+      </source>
+      <destination>
+        <network>(self)</network>
+        <port>80</port>
+      </destination>
+      <descr><![CDATA[Block direct HTTP access to admin panel]]></descr>
+    </rule>
+  </filter>
+  <unbound>
+    <!-- DNS resolver running on port 53 -->
+    <enable></enable>
+    <dnssec></dnssec>
+    <hideidentity></hideidentity>
+    <hideversion></hideversion>
+  </unbound>
+  <cert>
+    <!-- REDACTED: SSL certificate removed before publishing -->
+    <crt>REDACTED</crt>
+    <!-- REDACTED: Private key removed before publishing — NEVER share private keys -->
+    <prv>REDACTED</prv>
+  </cert>
+</pfsense>
