@@ -65,7 +65,7 @@ roles pfSense plays in an enterprise-style network:
 | VirtualBox | 7.x | Hypervisor — runs all VMs |
 | pfSense | 2.6.0 | Firewall/Router VM |
 | Nmap | 7.94 | Network scanning and audit |
-| Ubuntu Server | 22.04 LTS | Internal server VM / scan host |
+| Ubuntu Desktop | 22.04 LTS | Internal workstation VM |
 | Windows 10 | — | Internal client VM |
 | draw.io | Web | Network diagram creation |
 
